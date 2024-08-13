@@ -86,7 +86,7 @@ const Navbar = () => {
                 <ul ref={dropdownRef} className="absolute top-full right-0 left-1 mt-2 bg-gray-600 text-white shadow-lg w-40 rounded-md z-30 transition-opacity duration-300 opacity-100">
                   <li
                     className="cursor-pointer hover:bg-gray-700 px-4 py-2 transition-colors duration-300"
-                    onClick={() => navigate("/user-profile")}
+                    onClick={() => navigate("/dashboard")}
                   >
                     Profile
                   </li>
