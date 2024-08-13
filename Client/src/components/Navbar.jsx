@@ -54,7 +54,7 @@ const Navbar = () => {
           className="flex items-center space-x-2 cursor-pointer hover:text-gray-300 transition-colors duration-300"
           onClick={() => navigate("/")}
         >
-          <img src={logo} alt="Mental Balance Logo" className="h-12 w-12 object-cover" />
+          <img src={logo} alt="Mental Balance Logo" className="h-12 w-12 object-cover rounded-full shadow-md" />
           <span className="text-2xl font-bold">Mental Balance</span>
         </div>
         <ul className="hidden lg:flex space-x-8 items-center">
