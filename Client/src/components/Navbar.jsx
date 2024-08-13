@@ -48,7 +48,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`bg-blue-900 text-white p-4 shadow-lg z-20 ${isSticky ? 'fixed top-0 left-0 w-full transition-all duration-300' : ''}`}>
+    /* DESKTOP VIEW */
+    <nav className={`bg-[#4B4F52] text-white p-4 shadow-lg z-20 ${isSticky ? 'fixed top-0 left-0 w-full transition-all duration-300' : ''}`}>
       <div className="container mx-auto flex justify-between items-center">
         <div
           className="flex items-center space-x-2 cursor-pointer hover:text-gray-300 transition-colors duration-300"
@@ -57,7 +58,7 @@ const Navbar = () => {
           <img src={logo} alt="Mental Balance Logo" className="h-12 w-12 object-cover rounded-full shadow-md" />
           <span className="text-2xl font-bold">Mental Balance</span>
         </div>
-        <ul className="hidden lg:flex space-x-8 items-center">
+        <ul className="hidden font-semibold lg:flex space-x-5 items-center">
           {/* Add your navigation items here */}
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Home</li>
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/mentalhealth")}>Mental Health</li>
@@ -68,7 +69,7 @@ const Navbar = () => {
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Campaign</li>
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Business Ads</li>
           {!token ? (
-            <li className="underline cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/login")}>Login</li>
+            <li className="bg-white font-semibold text-black rounded px-2 cursor-pointer hover:text-gray-600 transition-colors duration-300" onClick={() => navigate("/login")}>Login</li>
           ) : (
             <li className="relative flex items-center">
               <img src={userAvatar} alt="User Avatar" className="h-8 w-8 rounded-full mr-2" />
@@ -82,15 +83,15 @@ const Navbar = () => {
                 </svg>
               </button>
               {dropdownOpen && (
-                <ul ref={dropdownRef} className="absolute top-full right-0 mt-2 bg-blue-800 text-white shadow-lg w-48 rounded-md z-30 transition-opacity duration-300 opacity-100">
+                <ul ref={dropdownRef} className="absolute top-full right-0 left-1 mt-2 bg-gray-600 text-white shadow-lg w-40 rounded-md z-30 transition-opacity duration-300 opacity-100">
                   <li
-                    className="cursor-pointer hover:bg-blue-700 px-4 py-2 transition-colors duration-300"
+                    className="cursor-pointer hover:bg-gray-700 px-4 py-2 transition-colors duration-300"
                     onClick={() => navigate("/user-profile")}
                   >
                     Profile
                   </li>
                   <li
-                    className="cursor-pointer hover:bg-blue-700 px-4 py-2 transition-colors duration-300"
+                    className="cursor-pointer hover:bg-gray-700 px-4 py-2 transition-colors duration-300"
                     onClick={handleLogout}
                   >
                     Logout
@@ -101,6 +102,7 @@ const Navbar = () => {
           )}
         </ul>
 
+        {/* Mobile Device */}
         <div className="lg:hidden flex items-center">
           <button
             className="text-white text-2xl focus:outline-none"
@@ -110,7 +112,7 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      <ul id="mobile-menu" className="lg:hidden hidden flex-col space-y-4 mt-4 bg-blue-900 text-white p-4 transition-transform duration-300 transform">
+      <ul id="mobile-menu" className="lg:hidden hidden flex-col font-semibold space-y-4 mt-4 bg-[#4B4F52] text-white p-4 transition-transform duration-300 transform">
         <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Home</li>
         <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/mentalhealth")}>Mental Health</li>
         <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/healthyliving")}>Healthy Living</li>
@@ -122,8 +124,10 @@ const Navbar = () => {
 
         {!token ? (
           <>
-            <li className="underline cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/register")}>Register here?</li>
-            <li className="underline cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/login")}>Login</li>
+            {/* <li className="underline cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/register")}>Register here?</li> */}
+            <li className="underline cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/login")}>Login </li>
+            {/* <li className="bg-white font-semibold text-black rounded px-2 cursor-pointer hover:text-gray-600 transition-colors duration-300" onClick={() => navigate("/login")}>Login</li> */}
+
           </>
         ) : (
           <>
@@ -139,15 +143,15 @@ const Navbar = () => {
                 </svg>
               </button>
               {dropdownOpen && (
-                <ul ref={dropdownRef} className="absolute top-full right-0 mt-2 bg-blue-800 text-white shadow-lg w-48 rounded-md z-30 transition-opacity duration-300 opacity-100">
+                <ul ref={dropdownRef} className="absolute top-full right-0 mt-2 bg-gray-400 text-white shadow-lg w-48 rounded-md z-30 transition-opacity duration-300 opacity-100">
                   <li
-                    className="cursor-pointer hover:bg-blue-700 px-4 py-2 transition-colors duration-300"
+                    className="cursor-pointer hover:bg-gray-700 px-4 py-2 transition-colors duration-300"
                     onClick={() => navigate("/user-profile")}
                   >
                     Profile
                   </li>
                   <li
-                    className="cursor-pointer hover:bg-blue-700 px-4 py-2 transition-colors duration-300"
+                    className="cursor-pointer hover:bg-gray-700 px-4 py-2 transition-colors duration-300"
                     onClick={handleLogout}
                   >
                     Logout
