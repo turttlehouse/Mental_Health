@@ -2,14 +2,24 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../../components/Navbar';
 
-
 const AdminDashboard = () => {
   const [articles, setArticles] = useState([]);
+  const token = localStorage.getItem('token'); // Get the token from localStorage
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/articles');
+        // Check if token exists before making the request
+        if (!token) {
+          throw new Error('No token found');
+        }
+
+        const response = await axios.get('http://localhost:5000/api/articles/admin', {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the request headers
+          },
+        });
+
         setArticles(response.data);
       } catch (error) {
         console.error('Error fetching articles:', error);
@@ -17,14 +27,29 @@ const AdminDashboard = () => {
     };
 
     fetchArticles();
-  }, []);
+  }, [token]);
 
   const handleStatusChange = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/articles/${id}/status`, { status });
-      setArticles(articles.map(article => 
-        article._id === id ? { ...article, status } : article
-      ));
+      if (!token) {
+        throw new Error('No token found');
+      }
+
+      const response = await axios.put(
+        `http://localhost:5000/api/articles/${id}/status`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the request headers
+          },
+        }
+      );
+      
+      if (response.status === 200) {
+        setArticles(articles.map(article => 
+          article._id === id ? { ...article, status } : article
+        ));
+      }
     } catch (error) {
       console.error('Error updating article status:', error);
     }
@@ -32,7 +57,7 @@ const AdminDashboard = () => {
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <div className="bg-gray-100 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-extrabold text-gray-900 mb-8">Admin Dashboard</h1>
@@ -54,7 +79,7 @@ const AdminDashboard = () => {
                           {article.status}
                         </span>
                       </div>
-                      <div className="ml-4 flex-shrink-0">
+                      <div className="ml-4 flex-shrink-0 flex space-x-2">
                         <button
                           onClick={() => handleStatusChange(article._id, 'published')}
                           className="text-green-600 hover:text-green-900 px-2"
@@ -84,7 +109,7 @@ const AdminDashboard = () => {
                   </li>
                 ))
               ) : (
-                <p>No articles available.</p>
+                <p className="text-center text-gray-500 py-6">No articles available.</p>
               )}
             </ul>
           </div>
