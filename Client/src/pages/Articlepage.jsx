@@ -29,17 +29,27 @@ const Articlepage = () => {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {articles.length > 0 ? (
               articles.map((article) => (
-                <Link to={`/articles/${article._id}`} key={article._id}>
-                  <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-                    <img src={article.image || 'https://via.placeholder.com/300'} alt={article.title} className="w-full h-48 object-cover" />
+                <Link 
+                  to={`/articles/${article._id}`} 
+                  key={article._id} 
+                  className="block group" 
+                  title="Click to view details"
+                >
+                  <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform group-hover:scale-105">
+                    <img 
+                      src={article.image || 'https://via.placeholder.com/300'} 
+                      alt={article.title} 
+                      className="w-full h-48 object-cover group-hover:opacity-90 transition-opacity duration-300" 
+                    />
                     <div className="p-6">
-                      <h2 className="text-2xl font-semibold text-gray-800 mb-2">{article.title}</h2>
+                      <h2 className="text-2xl font-semibold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors duration-300">{article.title}</h2>
                       <p className="text-gray-600 mb-4">{article.content.substring(0, 100)}...</p>
-                      <div className="flex items-center">
+                      <div className="flex items-center justify-between">
                         <div className="text-sm text-gray-500">
                           <span className="font-medium text-gray-900">By {article.author.name}</span> <br />
                           <span>{new Date(article.published_date).toLocaleDateString()}</span>
                         </div>
+                        <span className="text-blue-500 font-semibold">Read More &rarr;</span>
                       </div>
                     </div>
                   </div>

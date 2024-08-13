@@ -42,7 +42,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error('There was an error logging in!', error);
-      toast.error('There was an error logging in, Please register first.');
+      toast.error('There was an error logging in. Please check your credentials.');
     }
   };
 
@@ -82,13 +82,18 @@ const Login = () => {
           >
             Login
           </button>
-          <button
-            type="button" // Changed to button to avoid form submission
-            onClick={() => navigate("/register")}
-            className="mt-3 w-full bg-indigo-600 text-white p-2 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Register
-          </button>
+          <div className="mt-4 text-center">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{' '}
+              <button
+                type="button"
+                onClick={() => navigate('/register')}
+                className="text-indigo-600 hover:text-indigo-700 font-medium"
+              >
+                Register
+              </button>
+            </p>
+          </div>
         </form>
       </div>
     </div>

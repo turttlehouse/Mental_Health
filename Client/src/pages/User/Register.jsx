@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: '',  // Added name field
+    name: '',
     email: '',
     password: '',
     role: 'user'
@@ -96,6 +96,15 @@ const Register = () => {
             Register
           </button>
         </form>
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Already have an account?{' '}
+          <a
+            href="/login"
+            className="font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            Login
+          </a>
+        </p>
       </div>
     </div>
   );

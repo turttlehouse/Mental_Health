@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/Logo.jpg';
 import userAvatar from '../assets/user.png'; // Import your user avatar image
@@ -7,41 +7,33 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [userName, setUserName] = useState('');
-  const [isSticky, setIsSticky] = useState(false); // State for sticky navbar
+  const [isSticky, setIsSticky] = useState(false);
   const token = localStorage.getItem('token');
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
-    // Code to run when component mounts or updates
     const storedName = localStorage.getItem('name');
     if (storedName) {
       setUserName(storedName);
     }
 
     const handleScroll = () => {
-      if (window.scrollY > 450) { // Change 100 to your desired scroll point
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
+      setIsSticky(window.scrollY > 100);
+    };
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
       }
     };
 
-    // sets up a scroll event listener when the component mounts.
-    // This listener checks the scroll position to update the navbar’s sticky state.
     window.addEventListener('scroll', handleScroll);
-    
-    // Cleanup function to remove event listener 
-    // if the user navigates from a page that contains your Navbar component to
-    // a different page, the Navbar component will unmount.
-
+    window.addEventListener('click', handleClickOutside);
     return () => {
-       // Code to run when component unmounts
-       //useEffect hook is removed from the DOM due to navigation, conditional rendering,
-       // or other changes in the component tree.
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('click', handleClickOutside);
     };
   }, []);
-  //runs the effect code when the component mounts and whenever dependencies change 
-  //(Dependency array is empty, so it runs once on mount and once on unmount).
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -50,125 +42,112 @@ const Navbar = () => {
     navigate('/');
   };
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (e) => {
+    e.stopPropagation(); // Prevent the click event from bubbling up to the window
     setDropdownOpen(!dropdownOpen);
   };
 
   return (
-    <nav className={`bg-blue-800 text-white p-4 shadow-lg z-20 ${isSticky ? 'fixed top-0 left-0 w-full' : ''}`}>
+    <nav className={`bg-blue-900 text-white p-4 shadow-lg z-20 ${isSticky ? 'fixed top-0 left-0 w-full transition-all duration-300' : ''}`}>
       <div className="container mx-auto flex justify-between items-center">
         <div
-          className="flex items-center space-x-2 cursor-pointer hover:text-gray-300"
+          className="flex items-center space-x-2 cursor-pointer hover:text-gray-300 transition-colors duration-300"
           onClick={() => navigate("/")}
         >
           <img src={logo} alt="Mental Balance Logo" className="h-12 w-12 object-cover" />
-          <span className="text-xl font-bold">Mental Balance</span>
+          <span className="text-2xl font-bold">Mental Balance</span>
         </div>
-        <ul className="hidden lg:flex space-x-6 items-center">
-          <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/")}>Home</li>
-          <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/mentalhealth")}>Mental Health</li>
-          <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/healthyliving")}>Healthy Living</li>
-          <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/articles")}>Articles</li>
-          <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/addarticle")}>Add New Articles</li>
-          <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/forum")}>Forum</li>
-          <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/events")}>Campaign</li>
-          <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/resources")}>Business Ads</li>
-          
+        <ul className="hidden lg:flex space-x-8 items-center">
+          {/* Add your navigation items here */}
+          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Home</li>
+          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/mentalhealth")}>Mental Health</li>
+          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/healthyliving")}>Healthy Living</li>
+          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/articles")}>Articles</li>
+          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/addarticle")}>Add New Articles</li>
+          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Forum</li>
+          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Campaign</li>
+          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Business Ads</li>
           {!token ? (
-            <>
-              <li
-                className="underline cursor-pointer hover:text-gray-300"
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </li>
-            </>
+            <li className="underline cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/login")}>Login</li>
           ) : (
-            <>
-              <li className="relative flex items-center">
-                <img src={userAvatar} alt="User Avatar" className="h-8 w-8 rounded-full mr-2" /> {/* User Avatar */}
-                <button
-                  className="cursor-pointer hover:text-gray-300"
-                  onClick={toggleDropdown}
-                >
-                  {userName || "User"} {/* Display user name or 'User' if name is not available */}
-                </button>
-                {dropdownOpen && (
-                  <ul className="absolute right-0 mt-2 bg-blue-900 text-white shadow-lg w-48 rounded-md z-30">
-                    <li
-                      className="cursor-pointer hover:text-gray-300 px-4 py-2"
-                      onClick={() => navigate("/user-profile")}
-                    >
-                      Profile
-                    </li>
-                    <li
-                      className="cursor-pointer hover:text-gray-300 px-4 py-2"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </li>
-                  </ul>
-                )}
-              </li>
-            </>
+            <li className="relative flex items-center">
+              <img src={userAvatar} alt="User Avatar" className="h-8 w-8 rounded-full mr-2" />
+              <button
+                className="flex items-center cursor-pointer hover:text-gray-300 transition-colors duration-300"
+                onClick={toggleDropdown}
+              >
+                {userName || "User"}
+                <svg className={`ml-2 w-4 h-4 transition-transform duration-300 ${dropdownOpen ? 'transform rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              {dropdownOpen && (
+                <ul ref={dropdownRef} className="absolute top-full right-0 mt-2 bg-blue-800 text-white shadow-lg w-48 rounded-md z-30 transition-opacity duration-300 opacity-100">
+                  <li
+                    className="cursor-pointer hover:bg-blue-700 px-4 py-2 transition-colors duration-300"
+                    onClick={() => navigate("/user-profile")}
+                  >
+                    Profile
+                  </li>
+                  <li
+                    className="cursor-pointer hover:bg-blue-700 px-4 py-2 transition-colors duration-300"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </li>
+                </ul>
+              )}
+            </li>
           )}
         </ul>
 
-        <div className="lg:hidden">
+        <div className="lg:hidden flex items-center">
           <button
-            className="text-white focus:outline-none"
+            className="text-white text-2xl focus:outline-none"
             onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}
           >
             ☰
           </button>
         </div>
       </div>
-      <ul id="mobile-menu" className="lg:hidden hidden flex-col space-y-4 mt-4 bg-blue-800 text-white p-4">
-        <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/")}>Home</li>
-        <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/mental-health")}>Mental Health</li>
-        <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/healthy-living")}>Healthy Living</li>
-        <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/blog")}>Blog</li>
-        <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/forum")}>Forum</li>
-        <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/events")}>Events</li>
-        <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/resources")}>Resources</li>
-        <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/about")}>About Us</li>
-        <li className="cursor-pointer hover:text-gray-300" onClick={() => navigate("/contact")}>Contact Us</li>
+      <ul id="mobile-menu" className="lg:hidden hidden flex-col space-y-4 mt-4 bg-blue-900 text-white p-4 transition-transform duration-300 transform">
+        <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Home</li>
+        <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/mentalhealth")}>Mental Health</li>
+        <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/healthyliving")}>Healthy Living</li>
+        <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/articles")}>Articles</li>
+        <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/addarticle")}>Add New Articles</li>
+        <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Forum</li>
+        <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Campaign</li>
+        <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Business Ads</li>
 
         {!token ? (
           <>
-            <li
-              className="underline cursor-pointer hover:text-gray-300"
-              onClick={() => navigate("/register")}
-            >
-              Register here?
-            </li>
-            <li
-              className="underline cursor-pointer hover:text-gray-300"
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </li>
+            <li className="underline cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/register")}>Register here?</li>
+            <li className="underline cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/login")}>Login</li>
           </>
         ) : (
           <>
             <li className="relative flex items-center">
-              <img src={userAvatar} alt="User Avatar" className="h-8 w-8 rounded-full mr-2" /> {/* User Avatar */}
+              <img src={userAvatar} alt="User Avatar" className="h-8 w-8 rounded-full mr-2" />
               <button
-                className="cursor-pointer hover:text-gray-300"
+                className="flex items-center cursor-pointer hover:text-gray-300 transition-colors duration-300"
                 onClick={toggleDropdown}
               >
-                {userName || "User"} {/* Display user name or 'User' if name is not available */}
+                {userName || "User"}
+                <svg className={`ml-2 w-4 h-4 transition-transform duration-300 ${dropdownOpen ? 'transform rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
               </button>
               {dropdownOpen && (
-                <ul className="absolute right-0 mt-2 bg-blue-900 text-white shadow-lg w-48 rounded-md z-30">
+                <ul ref={dropdownRef} className="absolute top-full right-0 mt-2 bg-blue-800 text-white shadow-lg w-48 rounded-md z-30 transition-opacity duration-300 opacity-100">
                   <li
-                    className="cursor-pointer hover:text-gray-300 px-4 py-2"
+                    className="cursor-pointer hover:bg-blue-700 px-4 py-2 transition-colors duration-300"
                     onClick={() => navigate("/user-profile")}
                   >
                     Profile
                   </li>
                   <li
-                    className="cursor-pointer hover:text-gray-300 px-4 py-2"
+                    className="cursor-pointer hover:bg-blue-700 px-4 py-2 transition-colors duration-300"
                     onClick={handleLogout}
                   >
                     Logout
