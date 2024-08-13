@@ -61,7 +61,7 @@ const ArticleDetail = () => {
               <img 
                 src={article.image || 'https://via.placeholder.com/1200x600'} 
                 alt={article.title} 
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-cover"
               />
             </div>
             
