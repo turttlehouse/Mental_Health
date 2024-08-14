@@ -12,6 +12,8 @@ import Articlepage from './pages/Article/Articlepage'
 import ArticleDetail from './pages/Article/ArticleDetail'
 import AdminDashboard from './pages/Admin/AdminDashboard'
 import AdminArticleDetails from './pages/Admin/AdminArticleDetails'
+import Profile from './pages/User/Profile'
+import UserArticleDetails from './pages/User/UserArticleDetails'
 
 function App() {
 
@@ -29,7 +31,9 @@ function App() {
       <Route path = '/articles' element={<Articlepage/>}/>
       <Route path="/article/:id" element={<AdminArticleDetails />} />
       <Route path="/articles/:id" element={<ArticleDetail/>} />
+      <Route path="/userarticles/:id" element={<UserArticleDetails/>} />
       <Route path = '/dashboard' element={<AdminDashboard/>}/>
+      <Route path = '/profile' element={<Profile/>}/>
       <Route path = '/addarticle' element={<ProtectedRoute><AddArticle /></ProtectedRoute>} />
      
     </Routes>

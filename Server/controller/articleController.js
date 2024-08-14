@@ -11,6 +11,7 @@ const createArticle = async (req, res) => {
         }
         const newArticle = new Article({
             title,
+            userId: req.user._id, 
             author: {
                 name: author.name,
                 email: author.email,
@@ -132,11 +133,27 @@ const getAllArticlesForAdmin = async (req, res) => {
     }
 };
 
+
+const getUserArticles = async (req, res) => {
+    try {
+        const userId = req.user.id; // Assuming req.user is populated by the authentication middleware
+        const articles = await Article.find({ userId: userId });  // Find articles by the user
+
+        res.status(200).json(articles);
+    } catch (error) {
+        console.error('Error fetching user articles:', error);
+        res.status(500).json({
+            message: 'Server error. Please try again later.',
+        });
+    }
+}
+
 module.exports = {
     createArticle,
     getArticles,
     getArticleById,
     likeArticle, 
     updateArticleStatus, 
-    getAllArticlesForAdmin, // Admin can fetch all articles
+    getAllArticlesForAdmin, 
+    getUserArticles
 };
