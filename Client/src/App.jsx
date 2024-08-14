@@ -11,6 +11,7 @@ import { AuthProvider } from './context/AuthContext'
 import Articlepage from './pages/Article/Articlepage'
 import ArticleDetail from './pages/Article/ArticleDetail'
 import AdminDashboard from './pages/Admin/AdminDashboard'
+import AdminArticleDetails from './pages/Admin/AdminArticleDetails'
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
       <Route path = '/mentalhealth' element={<Mentalhealth/>}/>
       <Route path = '/healthyliving' element={<Healthyliving/>}/>
       <Route path = '/articles' element={<Articlepage/>}/>
+      <Route path="/article/:id" element={<AdminArticleDetails />} />
       <Route path="/articles/:id" element={<ArticleDetail/>} />
       <Route path = '/dashboard' element={<AdminDashboard/>}/>
       <Route path = '/addarticle' element={<ProtectedRoute><AddArticle /></ProtectedRoute>} />

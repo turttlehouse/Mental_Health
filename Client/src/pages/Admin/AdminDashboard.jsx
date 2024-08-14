@@ -1,28 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const [articles, setArticles] = useState([]);
-  const token = localStorage.getItem('token'); // Get the token from localStorage
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        // Check if token exists before making the request
         if (!token) {
           throw new Error('No token found');
         }
 
         const response = await axios.get('http://localhost:5000/api/articles/admin', {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request headers
+            Authorization: `Bearer ${token}`,
           },
         });
 
         setArticles(response.data);
       } catch (error) {
-        console.error('Error fetching articles:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -40,11 +45,11 @@ const AdminDashboard = () => {
         { status },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request headers
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      
+
       if (response.status === 200) {
         setArticles(articles.map(article => 
           article._id === id ? { ...article, status } : article
@@ -55,61 +60,103 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleArticleClick = (id) => {
+    navigate(`/article/${id}`);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-100">
+        <div className="text-lg text-gray-600">Loading articles...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-100">
+        <div className="text-lg text-red-600">{error}</div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Navbar />
-      <div className="bg-gray-100 py-10">
+      <div className="bg-gray-50 py-10 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-extrabold text-gray-900 mb-8">Admin Dashboard</h1>
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div className="bg-white shadow rounded-lg overflow-hidden">
             <ul className="divide-y divide-gray-200">
               {articles.length > 0 ? (
                 articles.map((article) => (
-                  <li key={article._id} className="px-4 py-4 sm:px-6">
-                    <div className="flex items-center justify-between">
-                      <div className="text-sm font-medium text-indigo-600 truncate">
-                        {article.title}
+                  <li
+                    key={article._id}
+                    className="relative px-6 py-8 sm:px-8 flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-200 hover:bg-gray-50 transition duration-200"
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-3">
+                        <div
+                          onClick={() => handleArticleClick(article._id)}
+                          className="text-lg font-semibold text-indigo-600 truncate cursor-pointer hover:underline"
+                        >
+                          {article.title}
+                        </div>
+                        <div className="ml-2 flex-shrink-0">
+                          <span className={`px-3 py-1 text-xs font-medium rounded-full ${
+                            article.status === 'published' ? 'bg-green-100 text-green-800' :
+                            article.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                            'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {article.status}
+                          </span>
+                        </div>
                       </div>
-                      <div className="ml-2 flex-shrink-0">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          article.status === 'published' ? 'bg-green-100 text-green-800' :
-                          article.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                          'bg-yellow-100 text-yellow-800'
-                        }`}>
-                          {article.status}
-                        </span>
+                      <div className="mt-3 text-sm text-gray-700">
+                        {article.content.substring(0, 150)}...
                       </div>
-                      <div className="ml-4 flex-shrink-0 flex space-x-2">
+                    </div>
+                    <div className="mt-4 sm:mt-0 sm:ml-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 items-start sm:items-center">
+                      <button
+                        onClick={() => handleArticleClick(article._id)}
+                        className="text-blue-600 hover:text-blue-800 font-medium px-3 py-2 border border-blue-600 rounded-lg transition duration-200"
+                      >
+                        See more
+                      </button>
+                      <div className="flex space-x-2">
                         <button
-                          onClick={() => handleStatusChange(article._id, 'published')}
-                          className="text-green-600 hover:text-green-900 px-2"
+                          onClick={(e) => { e.stopPropagation(); handleStatusChange(article._id, 'published'); }}
+                          className={`text-white bg-green-600 hover:bg-green-700 px-3 py-2 rounded-lg transition duration-200 ${
+                            article.status === 'published' ? 'opacity-50 cursor-not-allowed' : ''
+                          }`}
                           disabled={article.status === 'published'}
                         >
                           Publish
                         </button>
                         <button
-                          onClick={() => handleStatusChange(article._id, 'draft')}
-                          className="text-yellow-600 hover:text-yellow-900 px-2"
+                          onClick={(e) => { e.stopPropagation(); handleStatusChange(article._id, 'draft'); }}
+                          className={`text-white bg-yellow-600 hover:bg-yellow-700 px-3 py-2 rounded-lg transition duration-200 ${
+                            article.status === 'draft' ? 'opacity-50 cursor-not-allowed' : ''
+                          }`}
                           disabled={article.status === 'draft'}
                         >
                           Draft
                         </button>
                         <button
-                          onClick={() => handleStatusChange(article._id, 'rejected')}
-                          className="text-red-600 hover:text-red-900 px-2"
+                          onClick={(e) => { e.stopPropagation(); handleStatusChange(article._id, 'rejected'); }}
+                          className={`text-white bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg transition duration-200 ${
+                            article.status === 'rejected' ? 'opacity-50 cursor-not-allowed' : ''
+                          }`}
                           disabled={article.status === 'rejected'}
                         >
                           Reject
                         </button>
                       </div>
                     </div>
-                    <div className="mt-2 text-sm text-gray-500">
-                      {article.content.substring(0, 100)}...
-                    </div>
                   </li>
                 ))
               ) : (
-                <p className="text-center text-gray-500 py-6">No articles available.</p>
+                <div className="text-center text-gray-500 py-6">No articles available.</div>
               )}
             </ul>
           </div>
