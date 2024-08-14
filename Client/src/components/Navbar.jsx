@@ -47,6 +47,17 @@ const Navbar = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const handleProfileclick = ()=>{
+    const role = localStorage.getItem('role');
+    if(role === 'admin')
+    {
+      navigate('/dashboard')
+    }
+    else{
+      navigate('/profile')
+    }
+  }
+
   return (
     /* DESKTOP VIEW */
     <nav className={`bg-[#4B4F52] text-white p-4 shadow-lg z-20 ${isSticky ? 'fixed top-0 left-0 w-full transition-all duration-300' : ''}`}>
@@ -86,7 +97,7 @@ const Navbar = () => {
                 <ul ref={dropdownRef} className="absolute top-full right-0 left-1 mt-2 bg-gray-600 text-white shadow-lg w-40 rounded-md z-30 transition-opacity duration-300 opacity-100">
                   <li
                     className="cursor-pointer hover:bg-gray-700 px-4 py-2 transition-colors duration-300"
-                    onClick={() => navigate("/dashboard")}
+                    onClick={handleProfileclick}
                   >
                     Profile
                   </li>
@@ -146,7 +157,7 @@ const Navbar = () => {
                 <ul ref={dropdownRef} className="absolute top-full right-0 mt-2 bg-gray-400 text-white shadow-lg w-48 rounded-md z-30 transition-opacity duration-300 opacity-100">
                   <li
                     className="cursor-pointer hover:bg-gray-700 px-4 py-2 transition-colors duration-300"
-                    onClick={() => navigate("/user-profile")}
+                    onClick={handleProfileclick}
                   >
                     Profile
                   </li>
