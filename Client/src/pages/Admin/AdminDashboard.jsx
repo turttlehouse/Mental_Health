@@ -10,6 +10,8 @@ const AdminDashboard = () => {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL
+
   useEffect(() => {
     const fetchArticles = async () => {
       try {
@@ -17,7 +19,7 @@ const AdminDashboard = () => {
           throw new Error('No token found');
         }
 
-        const response = await axios.get('http://localhost:5000/api/articles/admin', {
+        const response = await axios.get(`${API_URL}/api/articles/admin`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +43,7 @@ const AdminDashboard = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:5000/api/articles/${id}/status`,
+        `${API_URL}/api/articles/${id}/status`,
         { status },
         {
           headers: {

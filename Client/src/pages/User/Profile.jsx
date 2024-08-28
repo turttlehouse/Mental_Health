@@ -17,7 +17,7 @@ const Profile = () => {
           throw new Error('No token found');
         }
 
-        const response = await axios.get('http://localhost:5000/api/articles/myarticles', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/myarticles`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

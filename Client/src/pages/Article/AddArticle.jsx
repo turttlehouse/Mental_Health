@@ -42,7 +42,7 @@ const AddArticle = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/articles',
+        `${import.meta.env.VITE_API_URL}/api/articles`,
         {
           title: article.title,
           author: {

@@ -14,7 +14,7 @@ const ArticleDetail = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/articles/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/${id}`);
         setArticle(response.data);
         setLikeCount(response.data.likes); // Set the initial like count from the article data
         setLiked(response.data.likedByUser); // Update liked state based on whether the user has liked it

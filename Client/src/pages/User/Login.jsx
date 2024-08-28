@@ -24,7 +24,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/login', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/login`, formData);
       const { token, role, name } = response.data;  // Updated to include name
 
       localStorage.setItem('token', token); // Store the token in local storage

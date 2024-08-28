@@ -12,7 +12,7 @@ const UserArticleDetails = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/articles/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/${id}`);
         setArticle(response.data);
         setLoading(false);
       } catch (error) {
