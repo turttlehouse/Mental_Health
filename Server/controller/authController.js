@@ -2,7 +2,7 @@
 //RouteHandler for /register endpoint
 //Controller is responsible for handling user input, processing it, and updating the model or triggering a change in the view.
 const User = require("../model/userModel")
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 exports.registerUser = async (req, res) => {
