@@ -14,7 +14,7 @@ import AdminArticleDetails from './pages/Admin/AdminArticleDetails'
 import Profile from './pages/User/Profile'
 import UserArticleDetails from './pages/User/UserArticleDetails'
 import Forum from './pages/forum/Forum'
-import Healthyliving from './pages/healthyliving/healthyliving'
+import Healthyliving from './pages/Healthyliving'
 
 
 function App() {
