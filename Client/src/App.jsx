@@ -4,7 +4,6 @@ import Home from './pages/Home/Home'
 import Register from './pages/User/Register'
 import Login from './pages/User/Login'
 import Mentalhealth from './pages/mental health/Mentalhealth'
-import Healthyliving from './pages/healthyliving/healthyliving'
 import AddArticle from './pages/Article/AddArticle'
 import ProtectedRoute from './pages/Protectedroute'
 import { AuthProvider } from './context/AuthContext'
@@ -14,6 +13,9 @@ import AdminDashboard from './pages/Admin/AdminDashboard'
 import AdminArticleDetails from './pages/Admin/AdminArticleDetails'
 import Profile from './pages/User/Profile'
 import UserArticleDetails from './pages/User/UserArticleDetails'
+import Forum from './pages/forum/Forum'
+import Healthyliving from './pages/healthyliving/healthyliving'
+
 
 function App() {
 
@@ -35,6 +37,7 @@ function App() {
       <Route path = '/dashboard' element={<AdminDashboard/>}/>
       <Route path = '/profile' element={<Profile/>}/>
       <Route path = '/addarticle' element={<ProtectedRoute><AddArticle /></ProtectedRoute>} />
+      <Route path = '/forum' element = {<Forum/>} />
      
     </Routes>
     </BrowserRouter>

@@ -69,16 +69,16 @@ const Navbar = () => {
           <img src={logo} alt="Mental Balance Logo" className="h-12 w-12 object-cover rounded-full shadow-md" />
           <span className="text-2xl font-bold">Mental Balance</span>
         </div>
-        <ul className="hidden font-semibold lg:flex space-x-5 items-center">
+        <ul className="hidden font-semibold lg:flex space-x-9 items-center">
           {/* Add your navigation items here */}
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Home</li>
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/mentalhealth")}>Mental Health</li>
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/healthyliving")}>Healthy Living</li>
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/articles")}>Articles</li>
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/addarticle")}>Add New Articles</li>
-          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Forum</li>
+          {/* <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/forum")}>Forum</li> */}
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Campaign</li>
-          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Business Ads</li>
+          {/* <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Business Ads</li> */}
           {!token ? (
             <li className="bg-white font-semibold text-black rounded px-2 cursor-pointer hover:text-gray-600 transition-colors duration-300" onClick={() => navigate("/login")}>Login</li>
           ) : (
