@@ -15,6 +15,9 @@ import Profile from './pages/User/Profile'
 import UserArticleDetails from './pages/User/UserArticleDetails'
 import Forum from './pages/forum/Forum'
 import Healthyliving from './pages/Healthyliving'
+import Campaign from './pages/campaign/Campaign'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 
 function App() {
@@ -23,6 +26,7 @@ function App() {
 
     <AuthProvider>
     <BrowserRouter>
+    <Navbar/>
     <Routes>
       
       <Route path='/' element={<Home/>}  />  
@@ -38,8 +42,10 @@ function App() {
       <Route path = '/profile' element={<Profile/>}/>
       <Route path = '/addarticle' element={<ProtectedRoute><AddArticle /></ProtectedRoute>} />
       <Route path = '/forum' element = {<Forum/>} />
+      <Route path = '/campaign' element = {<Campaign/>} />
      
     </Routes>
+    <Footer/>
     </BrowserRouter>
     </AuthProvider>
     

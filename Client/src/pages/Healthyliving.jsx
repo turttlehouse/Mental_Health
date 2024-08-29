@@ -1,11 +1,8 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 
 const Healthyliving = () => {
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar />
 
       <main className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
@@ -111,7 +108,6 @@ const Healthyliving = () => {
         </section>
       </main>
 
-      <Footer />
     </div>
   );
 };

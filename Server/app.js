@@ -24,10 +24,12 @@ app.use(express.urlencoded({ extended: true })); // parse incoming url-encoded d
 // Importing routes
 const authRoute = require("./route/authRoute");
 const articleRoute = require("./route/articleRoute");
+const campaignRoute = require("./route/campaignRoute")
 
 // Use /api prefix consistently
 app.use("/api", authRoute);
 app.use("/api/articles", articleRoute);
+app.use("/api/campaigns",campaignRoute);
 
 app.get("/", (req, res) => {
     res.status(200).json({

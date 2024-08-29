@@ -1,11 +1,8 @@
 import React from 'react';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
 
 const Mentalhealth = () => {
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar />
 
       <main className="max-w-4xl mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
@@ -81,7 +78,6 @@ const Mentalhealth = () => {
         </section>
       </main>
 
-      <Footer />
     </div>
   );
 };

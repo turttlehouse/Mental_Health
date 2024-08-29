@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -84,7 +83,6 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <Navbar />
       <div className="bg-gray-50 py-10 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-extrabold text-gray-900 mb-8">Admin Dashboard</h1>

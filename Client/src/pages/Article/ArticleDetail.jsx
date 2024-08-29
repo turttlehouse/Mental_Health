@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { FaCalendarAlt, FaUser, FaComment, FaStar, FaThumbsUp } from 'react-icons/fa';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+
 
 const ArticleDetail = () => {
   const { id } = useParams();
@@ -52,7 +51,6 @@ const ArticleDetail = () => {
 
   return (
     <>
-      <Navbar />
       <div className="bg-gray-100 py-6 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white shadow-xl rounded-lg overflow-hidden">
@@ -113,7 +111,6 @@ const ArticleDetail = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

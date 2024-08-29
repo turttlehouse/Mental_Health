@@ -77,7 +77,7 @@ const Navbar = () => {
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/articles")}>Articles</li>
           <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/addarticle")}>Add New Articles</li>
           {/* <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/forum")}>Forum</li> */}
-          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Campaign</li>
+          <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/campaign")}>Campaign</li>
           {/* <li className="cursor-pointer hover:text-gray-300 transition-colors duration-300" onClick={() => navigate("/")}>Business Ads</li> */}
           {!token ? (
             <li className="bg-white font-semibold text-black rounded px-2 cursor-pointer hover:text-gray-600 transition-colors duration-300" onClick={() => navigate("/login")}>Login</li>
